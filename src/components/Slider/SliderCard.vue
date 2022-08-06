@@ -1,14 +1,24 @@
 <template>
   <div
-    class="hover:opacity-100 transition-opacity duration-[.3s] opacity-80 rounded-lg bg-gray-300 h-[500px] w-[425px]"
-    :class="elementOrder === 0 ? 'opacity-100' : null"
+    class="hover:opacity-100 transition-all duration-[.3s] opacity-80 rounded-lg bg-gray-300 h-[500px] absolute left-0"
+    :class="{
+      [`w-[${width}px]`]: true,
+      ['opacity-100']: mainSlide
+    }"
     :style="{
       backgroundColor: color,
-      transform: `scale(${1 - elementOrder * 0.1})`,
       zIndex: 3 - elementOrder,
-      marginLeft: `-${100 * elementOrder}px`
+      left: isPrevSlide
+        ? '-' + width + 'px'
+        : Math.round(width * 0.5 * (index - currentSlide)) + 'px',
+      transform: `scale(${1 - (index - currentSlide) * 0.1})`,
+      opacity: index - currentSlide - 2 > 0 || isPrevSlide ? '0' : null
     }"
   />
+  <pre style="transform: translateY(-200px)">
+    currentSlide = {{ currentSlide }}
+    index = {{ index }}
+  </pre>
 </template>
 
 <script>
@@ -21,6 +31,32 @@ export default defineComponent({
     },
     elementOrder: {
       type: Number || String
+    },
+    mainSlider: {
+      type: Boolean,
+      require: true
+    },
+    prevSlide: {
+      type: Boolean
+    },
+    currentSlide: {
+      type: Number
+    },
+    index: {
+      type: Number
+    }
+  },
+  data() {
+    return {
+      width: 425
+    }
+  },
+  computed: {
+    isPrevSlide() {
+      return this.index < this.currentSlide
+    },
+    mainSlide() {
+      return this.index === this.currentSlide
     }
   }
 })

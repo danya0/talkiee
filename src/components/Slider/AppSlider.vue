@@ -1,17 +1,17 @@
 <template>
   <div class="px-3 mx-20">
-    <div class="flex justify-center">
+    <div
+      class="flex justify-center relative h-[500px] overflow-hidden w-[900px]"
+    >
       <SliderCard
         ref="items"
         v-for="(color, index) in testColors"
-        v-show="
-          index === currentSlide ||
-          index - 1 === currentSlide ||
-          index - 2 === currentSlide
-        "
         :key="color"
         :color="color"
+        :current-slide="currentSlide"
+        :index="index"
         :element-order="index - currentSlide"
+        :prev-slide="index < currentSlide"
       />
     </div>
     <div class="h-10 flex items-center">
