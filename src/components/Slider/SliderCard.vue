@@ -15,10 +15,6 @@
       opacity: index - currentSlide - 2 > 0 || isPrevSlide ? '0' : null
     }"
   />
-  <pre style="transform: translateY(-200px)">
-    currentSlide = {{ currentSlide }}
-    index = {{ index }}
-  </pre>
 </template>
 
 <script>
