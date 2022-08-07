@@ -2,10 +2,10 @@
   <div
     class="hover:opacity-100 transition-all duration-[.3s] opacity-80 rounded-lg bg-gray-300 h-[500px] absolute left-0"
     :class="{
-      [`w-[${width}px]`]: true,
       ['opacity-100']: mainSlide
     }"
     :style="{
+      width: width + 'px',
       backgroundColor: color,
       zIndex: 3 - elementOrder,
       left: isPrevSlide
