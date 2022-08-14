@@ -1,19 +1,16 @@
 <template>
-  <div class="container mx-auto pt-40">
-    <div class="flex items-center">
-      <AppLogo />
-      <AppSlider />
-    </div>
+  <div class="container mx-auto">
+    <NavBar />
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import AppLogo from '@/components/AppLogo.vue'
-import AppSlider from '@/components/Slider/AppSlider.vue'
+import NavBar from '@/components/NavBar.vue'
 
 export default defineComponent({
-  components: { AppSlider, AppLogo },
+  components: { NavBar },
   data: () => {
     return {
       counter: 1

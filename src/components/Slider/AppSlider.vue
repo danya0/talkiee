@@ -1,7 +1,7 @@
 <template>
   <div class="px-3 mx-20">
     <div
-      class="flex justify-center relative h-[500px] overflow-hidden w-[900px]"
+      class="flex justify-center relative h-[500px] overflow-hidden w-[820px]"
     >
       <SliderCard
         ref="items"
