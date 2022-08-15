@@ -10,7 +10,3 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({})
 </script>
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-</style>

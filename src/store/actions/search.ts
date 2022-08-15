@@ -1,0 +1,1 @@
+export const SEARCH_SET_GRID_REF = 'SEARCH_SET_GRID_REF'

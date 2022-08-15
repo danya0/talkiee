@@ -32,6 +32,6 @@ export default {
   left: 0;
   right: 0;
   height: 2px;
-  @apply bg-green-500;
+  @apply bg-green-700;
 }
 </style>

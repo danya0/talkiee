@@ -34,7 +34,10 @@ export default defineComponent({
   },
   methods: {
     search() {
-      this.isSearch = !this.isSearch
+      if (this.isSearch) {
+        ;(this.$refs.filmsGreed as any).scrollTo()
+      }
+      this.isSearch = true
       ;(this.$refs.searchInput as any).select()
     }
   }
