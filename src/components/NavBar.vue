@@ -10,15 +10,8 @@
         </router-link>
       </li>
     </ul>
-    <AppSearch />
   </nav>
 </template>
-<script>
-import AppSearch from '@/components/AppSearch'
-export default {
-  components: { AppSearch }
-}
-</script>
 
 <style>
 .active-link {

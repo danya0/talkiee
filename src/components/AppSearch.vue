@@ -4,9 +4,8 @@
       <form @submit.prevent>
         <input
           ref="searchInput"
-          v-if="isSearch"
           class="border-2 h-auto mr-2 border-green-700 px-3 py-2 rounded-lg text-black placeholder:text-black w-[300px]"
-          placeholder="Ищете что-то конкретное?"
+          placeholder="Матрица"
           type="text"
         />
       </form>
@@ -29,16 +28,21 @@ export default defineComponent({
   },
   data() {
     return {
-      isSearch: false
+      isSearch: false as boolean
+    }
+  },
+  computed: {
+    filmsGreedRef(): HTMLDivElement {
+      return this.$store.search.filmsGreedRef
     }
   },
   methods: {
     search() {
       if (this.isSearch) {
-        ;(this.$refs.filmsGreed as any).scrollTo()
+        this.filmsGreedRef.scrollTo()
+        return
       }
       this.isSearch = true
-      ;(this.$refs.searchInput as any).select()
     }
   }
 })
