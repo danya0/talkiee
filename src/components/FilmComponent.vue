@@ -1,5 +1,8 @@
 <template>
-  <div class="group h-[325px] w-[220px] cursor-pointer">
+  <div
+    class="group cursor-pointer"
+    :class="{ 'w-full h-full': slideMode, 'h-[325px] w-[220px]': !slideMode }"
+  >
     <div
       class="relative rounded-lg h-full w-full bg-green-700 overflow-hidden mb-1"
     >
@@ -17,7 +20,9 @@
         <button>В избранное</button>
       </div>
     </div>
-    <p class="text-lg truncate">Реальные упыри 229 львдлыфв и алал ла</p>
+    <p v-if="!noTitle" class="text-lg truncate">
+      Реальные упыри 229 львдлыфв и алал ла
+    </p>
   </div>
 </template>
 
@@ -25,6 +30,16 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: {
+    noTitle: {
+      type: Boolean,
+      default: false
+    },
+    slideMode: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       img: 'https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/3d4d23ac-812a-4654-9672-5c8c91308587/300x450'
