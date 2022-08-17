@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center">
     <transition name="search-input">
-      <form @submit.prevent>
+      <form @submit.prevent="search">
         <input
           v-model="searchInput"
           ref="searchInput"
