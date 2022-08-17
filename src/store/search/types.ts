@@ -1,5 +1,5 @@
-import { Ref } from 'vue'
+import { KinopoiskTypes } from '@/types/kinopoisk.types'
 
 export interface SearchState {
-  filmsGreedRef: HTMLDivElement | null
+  searchArray?: KinopoiskTypes[]
 }

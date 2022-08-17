@@ -3,6 +3,7 @@
     <transition name="search-input">
       <form @submit.prevent>
         <input
+          v-model="searchInput"
           ref="searchInput"
           class="border-2 h-auto mr-2 border-green-700 px-3 py-2 rounded-lg text-black placeholder:text-black w-[300px]"
           placeholder="Матрица"
@@ -23,12 +24,18 @@ import SvgIcons from '@/components/SvgIcons.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: {
+    searchArray: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     SvgIcons
   },
   data() {
     return {
-      isSearch: false as boolean
+      searchInput: '' as string
     }
   },
   computed: {
@@ -38,11 +45,7 @@ export default defineComponent({
   },
   methods: {
     search() {
-      if (this.isSearch) {
-        this.filmsGreedRef.scrollTo()
-        return
-      }
-      this.isSearch = true
+      this.$emit('search', this.searchInput)
     }
   }
 })

@@ -2,16 +2,26 @@
   <div>
     <p class="ml-6 mb-6 text-xl">
       Результат поиска по запросу:
-      <span class="text-green-700 font-bold">UEUEU</span>
+      <span class="text-green-700 font-bold">{{ keyword }}</span>
     </p>
     <div class="grid grid-cols-6 gap-y-12 place-items-center">
-      <FilmComponent v-for="item in 8" :key="item" />
+      <FilmComponent v-for="item in filmsArray" :key="item" :film="item" />
     </div>
   </div>
 </template>
 <script>
 import FilmComponent from '@/components/FilmComponent'
 export default {
-  components: { FilmComponent }
+  components: { FilmComponent },
+  props: {
+    filmsArray: {
+      type: Array,
+      default: () => []
+    },
+    keyword: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>

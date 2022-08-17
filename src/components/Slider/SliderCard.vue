@@ -14,16 +14,16 @@
       opacity: index - currentSlide - 2 > 0 || isPrevSlide ? '0' : null
     }"
   >
-    <FilmComponent no-title slide-mode />
+    <!--    <FilmComponent no-title slide-mode />-->
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import FilmComponent from '@/components/FilmComponent'
+// import FilmComponent from '@/components/FilmComponent'
 
 export default defineComponent({
-  components: { FilmComponent },
+  // components: { FilmComponent },
   props: {
     elementOrder: {
       type: Number || String

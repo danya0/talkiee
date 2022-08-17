@@ -24,10 +24,9 @@ export class KinopoiskApi {
   type: "FILM"
   year: "2012"*/
 
-  private static apiKey: string
-  apiKey = '72075446-58b7-4b51-a057-afce97d78d33'
+  private apiKey = '72075446-58b7-4b51-a057-afce97d78d33'
 
-  static async searchByKeyword(
+  async searchByKeyword(
     keyword: string,
     page?: number
   ): Promise<KinopoiskTypes> {
@@ -42,9 +41,9 @@ export class KinopoiskApi {
     }
 
     const stringPage = typeof page === 'number' ? String(page) : page
-
+    console.log('this.apiKey -->', this.apiKey)
     return fetch(
-      'https://kinopoiskapiunofficial.tech/api/v2.2/films?' +
+      'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?' +
         new URLSearchParams({
           keyword: keyword,
           page: stringPage ? stringPage : '1'

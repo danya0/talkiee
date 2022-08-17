@@ -7,7 +7,8 @@
       class="relative rounded-lg h-full w-full bg-green-700 overflow-hidden mb-1"
     >
       <img
-        :src="img"
+        :src="film.posterUrlPreview"
+        :alt="filmName"
         class="transition-transform duration-[300ms] ease-in-out h-full w-full object-cover group-hover:scale-105 with-before"
       />
       <div
@@ -21,7 +22,7 @@
       </div>
     </div>
     <p v-if="!noTitle" class="text-lg truncate">
-      Реальные упыри 229 львдлыфв и алал ла
+      {{ filmName }}
     </p>
   </div>
 </template>
@@ -38,11 +39,14 @@ export default defineComponent({
     slideMode: {
       type: Boolean,
       default: false
+    },
+    film: {
+      type: Object
     }
   },
-  data() {
-    return {
-      img: 'https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/3d4d23ac-812a-4654-9672-5c8c91308587/300x450'
+  computed: {
+    filmName() {
+      return this.film.nameRu || this.film.nameEn
     }
   }
 })

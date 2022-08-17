@@ -8,10 +8,15 @@
       <h2 class="text-5xl font-light with-line pl-[60px]">
         Ищете что-то конкретное?
       </h2>
-      <AppSearch />
+      <AppSearch @search="search" />
     </div>
   </section>
-  <FilmsGrid ref="filmsRef" class="mb-6" />
+  <FilmsGrid
+    v-if="filmsArray"
+    :films-array="filmsArray"
+    :keyword="keyword"
+    class="mb-6"
+  />
 </template>
 
 <script lang="ts">
@@ -20,9 +25,26 @@ import AppLogo from '@/components/AppLogo.vue'
 import AppSlider from '@/components/Slider/AppSlider.vue'
 import FilmsGrid from '@/components/FilmsGrid.vue'
 import AppSearch from '@/components/AppSearch.vue'
+import { SEARCH_FILMS } from '@/store/search/constants'
 
 export default defineComponent({
-  components: { AppSearch, FilmsGrid, AppSlider, AppLogo }
+  components: { AppSearch, FilmsGrid, AppSlider, AppLogo },
+  data() {
+    return {
+      keyword: ''
+    }
+  },
+  methods: {
+    search(keyword: string) {
+      this.$store.dispatch(SEARCH_FILMS, keyword)
+      this.keyword = keyword
+    }
+  },
+  computed: {
+    filmsArray() {
+      return this.$store.state.search.searchArray
+    }
+  }
 })
 </script>
 
