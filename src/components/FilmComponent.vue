@@ -14,10 +14,10 @@
         class="transition-opacity duration-[300ms] h-full w-full absolute top-0 left-0 bg-black group-hover:opacity-60 opacity-0"
       />
       <div
-        class="transition-transform duration-[300ms] group-hover:translate-y-0 absolute bottom-0 w-full h-1/4 p-2 flex items-center justify-between rounded-lg bg-black text-white translate-y-full"
+        class="transition-transform duration-[300ms] group-hover:translate-y-0 absolute bottom-0 w-full h-1/4 p-2 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
       >
         <button>Смотреть</button>
-        <button>В избранное</button>
+        <button>Добавить в избранное</button>
       </div>
     </div>
     <p v-if="!noTitle" class="text-lg truncate">
