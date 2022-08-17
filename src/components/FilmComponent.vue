@@ -1,7 +1,7 @@
 <template>
   <div
     class="group cursor-pointer"
-    :class="{ 'w-full h-full': slideMode, 'h-[325px] w-[220px]': !slideMode }"
+    :class="{ 'w-full h-full': slideMode, 'w-[220px]': !slideMode }"
   >
     <div
       class="relative rounded-lg h-full w-full bg-green-700 overflow-hidden mb-1"
