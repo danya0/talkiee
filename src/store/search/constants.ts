@@ -1,2 +1,0 @@
-export const SEARCH_FILMS = 'SEARCH_FILMS'
-export const SEARCH_SET_FILMS = 'SEARCH_SET_FILMS'

@@ -11,12 +11,16 @@
       <AppSearch :random-film-name="randomFilmName" @search="search" />
     </div>
   </section>
-  <FilmsGrid
-    v-if="filmsArray"
-    :films-array="filmsArray"
-    :keyword="keyword"
-    class="mb-6"
-  />
+  <div
+    v-if="filmsGreedLoading"
+    ref="loader"
+    class="w-full flex justify-center my-40"
+  >
+    <AppLoader />
+  </div>
+  <div v-else-if="filmsArray" ref="filmGreed">
+    <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,10 +29,11 @@ import AppLogo from '@/components/AppLogo.vue'
 import AppSlider from '@/components/Slider/AppSlider.vue'
 import FilmsGrid from '@/components/FilmsGrid.vue'
 import AppSearch from '@/components/AppSearch.vue'
-import { SEARCH_FILMS } from '@/store/search/constants'
+import { SearchTypes } from '@/store/search/search'
+import AppLoader from '@/components/AppLoader.vue'
 
 export default defineComponent({
-  components: { AppSearch, FilmsGrid, AppSlider, AppLogo },
+  components: { AppLoader, AppSearch, FilmsGrid, AppSlider, AppLogo },
   data() {
     return {
       keyword: ''
@@ -36,8 +41,22 @@ export default defineComponent({
   },
   methods: {
     search(keyword: string) {
-      this.$store.dispatch(SEARCH_FILMS, keyword)
+      this.$store.dispatch(SearchTypes.SEARCH_FILMS, keyword)
       this.keyword = keyword
+    }
+  },
+  watch: {
+    filmsGreedLoading(newVal) {
+      if (!newVal && this.filmsArray.length) {
+        console.log('newVal -->', newVal)
+        this.$nextTick(() => {
+          console.log('this.$refs -->', this.$refs)
+          ;(this.$refs.filmGreed as HTMLDivElement).scrollIntoView({
+            block: 'end',
+            behavior: 'smooth'
+          })
+        })
+      }
     }
   },
   computed: {
@@ -46,6 +65,9 @@ export default defineComponent({
     },
     randomFilmName() {
       return this.$store.getters.getRandomFilmName
+    },
+    filmsGreedLoading() {
+      return this.$store.state.search.isLoading
     }
   }
 })

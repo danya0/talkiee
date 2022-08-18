@@ -1,11 +1,16 @@
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SearchState } from '@/store/search/types'
 import { RootState } from '@/store/types'
-import * as SEARCH from './constants'
 import { KinopoiskTypes } from '@/types/kinopoisk.types'
 import { KinopoiskApi } from '@/api/kinopoiskApi'
-import { Root } from 'postcss'
 import { getRandomValueInRange } from '@/utils/utils'
+
+export enum SearchTypes {
+  SEARCH_FILMS = 'SEARCH_FILMS',
+  SET_FILMS = 'SET_FILMS',
+  LOADED_ON = 'LOADED_ON',
+  LOADED_OFF = 'LOADED_OFF'
+}
 
 const state: SearchState = {
   searchArray: undefined,
@@ -19,7 +24,8 @@ const state: SearchState = {
     'Линкольн для адвоката',
     'Интерстеллар',
     'Человек-паук: нет пути домой'
-  ]
+  ],
+  isLoading: false
 }
 
 const getters: GetterTree<SearchState, RootState> = {
@@ -31,16 +37,24 @@ const getters: GetterTree<SearchState, RootState> = {
 }
 
 const mutations: MutationTree<SearchState> = {
-  [SEARCH.SEARCH_SET_FILMS](state: SearchState, filmsArray: KinopoiskTypes[]) {
+  [SearchTypes.SET_FILMS](state: SearchState, filmsArray: KinopoiskTypes[]) {
     state.searchArray = filmsArray
+  },
+  [SearchTypes.LOADED_ON](state: SearchState) {
+    state.isLoading = true
+  },
+  [SearchTypes.LOADED_OFF](state: SearchState) {
+    state.isLoading = false
   }
 }
 
 const actions: ActionTree<SearchState, RootState> = {
-  [SEARCH.SEARCH_FILMS]: ({ commit }, keyword: string) => {
+  [SearchTypes.SEARCH_FILMS]: ({ commit }, keyword: string) => {
+    commit(SearchTypes.LOADED_ON)
     new KinopoiskApi().searchByKeyword(keyword).then((res) => {
       console.log('res -->', res)
-      commit(SEARCH.SEARCH_SET_FILMS, res)
+      commit(SearchTypes.LOADED_OFF)
+      commit(SearchTypes.SET_FILMS, res)
     })
   }
 }
