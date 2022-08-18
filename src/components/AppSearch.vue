@@ -5,8 +5,8 @@
         <input
           v-model="searchInput"
           ref="searchInput"
-          class="border-2 h-auto mr-2 border-green-700 px-3 py-2 rounded-lg text-black placeholder:text-black w-[300px]"
-          placeholder="Матрица"
+          class="border-2 h-auto mr-2 border-green-700 px-3 py-2 rounded-lg text-black placeholder:text-black w-[300px] placeholder:text-gray-400"
+          :placeholder="randomFilmName"
           type="text"
         />
       </form>
@@ -28,6 +28,10 @@ export default defineComponent({
     searchArray: {
       type: Array,
       default: () => []
+    },
+    randomFilmName: {
+      type: String,
+      default: ''
     }
   },
   components: {

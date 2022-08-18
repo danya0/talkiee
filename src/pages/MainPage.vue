@@ -8,7 +8,7 @@
       <h2 class="text-5xl font-light with-line pl-[60px]">
         Ищете что-то конкретное?
       </h2>
-      <AppSearch @search="search" />
+      <AppSearch :random-film-name="randomFilmName" @search="search" />
     </div>
   </section>
   <FilmsGrid
@@ -43,6 +43,9 @@ export default defineComponent({
   computed: {
     filmsArray() {
       return this.$store.state.search.searchArray
+    },
+    randomFilmName() {
+      return this.$store.getters.getRandomFilmName
     }
   }
 })
