@@ -4,7 +4,9 @@
       Результат поиска по запросу:
       <span class="text-green-700 font-bold">{{ keyword }}</span>
     </p>
-    <div class="grid grid-cols-6 gap-y-12 place-items-center mb-5">
+    <div
+      class="grid grid-cols-6 grid-rows-[362px] gap-y-12 place-items-center mb-5"
+    >
       <FilmComponent v-for="item in filmsArray" :key="item" :film="item" />
     </div>
   </div>
