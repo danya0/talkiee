@@ -4,7 +4,7 @@
     :class="{ 'w-full': slideMode, 'w-[220px] ': !slideMode }"
   >
     <div
-      class="relative rounded-lg h-full w-full bg-green-700 overflow-hidden mb-1"
+      class="relative rounded-lg h-[90%] w-full bg-green-700 overflow-hidden mb-1"
     >
       <img
         :src="film.posterUrlPreview"
