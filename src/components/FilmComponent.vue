@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group cursor-pointer h-full"
+    class="group cursor-pointer h-full relative"
     :class="{ 'w-full': slideMode, 'w-[220px] ': !slideMode }"
   >
     <div
@@ -26,6 +26,12 @@
     <p v-if="!noTitle" class="text-lg truncate">
       {{ filmName }}
     </p>
+    <div
+      v-if="film.rating"
+      class="absolute top-[10px] right-[10px] bg-white rounded-lg p-2"
+    >
+      ⭐️ {{ film.rating }}
+    </div>
   </div>
 </template>
 

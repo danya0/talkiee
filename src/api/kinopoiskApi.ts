@@ -38,12 +38,14 @@ export class KinopoiskApi {
   private apiKey = '72075446-58b7-4b51-a057-afce97d78d33'
 
   removeExtraFields(film: any): FilmType {
+    console.log('film -->', film)
     return {
       nameRu: film.nameRu,
       nameEn: film.nameEn,
       posterUrlPreview: film.posterUrlPreview,
       year: film.year,
-      filmId: film.filmId
+      filmId: film.filmId,
+      rating: film.ratingKinopoisk || film.rating
     }
   }
 
