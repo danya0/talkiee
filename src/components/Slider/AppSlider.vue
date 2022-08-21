@@ -1,16 +1,18 @@
 <template>
   <div class="px-3 mx-20">
+    <p class="mb-2 text-2xl">{{ title }}</p>
     <div
       class="-mr-[200px] flex justify-center relative h-[500px] overflow-hidden w-[820px]"
     >
       <SliderCard
         ref="items"
-        v-for="(color, index) in testColors"
-        :key="color"
+        v-for="(film, index) in films"
+        :key="film.filmId"
         :current-slide="currentSlide"
         :index="index"
         :element-order="index - currentSlide"
         :prev-slide="index < currentSlide"
+        :film="film"
       />
     </div>
     <div class="h-10 flex items-center">
@@ -20,7 +22,7 @@
         @click="prevSlide"
       ></button>
       <button
-        :disabled="currentSlide === testColors.length - 3"
+        :disabled="currentSlide === films.length - 3"
         class="disabled:cursor-not-allowed h-full arrow arrow-next"
         @click="nextSlide"
       ></button>
@@ -34,16 +36,20 @@ import SliderCard from '@/components/Slider/SliderCard.vue'
 
 export default defineComponent({
   components: { SliderCard },
+  props: {
+    films: {
+      type: Array,
+      default: () => [],
+      require: true
+    },
+    title: {
+      type: String,
+      default: '',
+      require: true
+    }
+  },
   data() {
     return {
-      testColors: [
-        'red',
-        'blue',
-        'gray',
-        'plum',
-        'green',
-        'lightgray'
-      ] as string[],
       currentSlide: 0 as number
     }
   },
@@ -52,7 +58,7 @@ export default defineComponent({
   },
   methods: {
     nextSlide() {
-      if (this.currentSlide < this.testColors.length - 3) {
+      if (this.currentSlide < this.films.length - 3) {
         this.currentSlide++
       }
     },

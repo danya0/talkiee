@@ -8,22 +8,24 @@
       width: width + 'px',
       zIndex: 3 - elementOrder,
       left: isPrevSlide
-        ? '-' + width + 'px'
+        ? '-' + width * 1.1 + 'px'
         : Math.round(width * 0.5 * (index - currentSlide)) + 'px',
-      transform: `scale(${1 - (index - currentSlide) * 0.1})`,
+      transform: isPrevSlide
+        ? `scale(1.1)`
+        : `scale(${1 - (index - currentSlide) * 0.1})`,
       opacity: index - currentSlide - 2 > 0 || isPrevSlide ? '0' : null
     }"
   >
-    <!--    <FilmComponent no-title slide-mode />-->
+    <FilmComponent no-title slide-mode :film="film" />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-// import FilmComponent from '@/components/FilmComponent'
+import FilmComponent from '@/components/FilmComponent'
 
 export default defineComponent({
-  // components: { FilmComponent },
+  components: { FilmComponent },
   props: {
     elementOrder: {
       type: Number || String
@@ -40,6 +42,9 @@ export default defineComponent({
     },
     index: {
       type: Number
+    },
+    film: {
+      type: Object
     }
   },
   data() {

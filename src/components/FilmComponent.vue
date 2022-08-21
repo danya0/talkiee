@@ -4,7 +4,8 @@
     :class="{ 'w-full': slideMode, 'w-[220px] ': !slideMode }"
   >
     <div
-      class="relative rounded-lg h-[90%] w-full bg-green-700 overflow-hidden mb-1"
+      class="relative rounded-lg w-full bg-green-700 overflow-hidden"
+      :class="[slideMode ? 'h-full' : 'h-[90%] mb-1']"
     >
       <img
         :src="film.posterUrlPreview"
@@ -15,7 +16,8 @@
         class="transition-opacity duration-[300ms] h-full w-full absolute top-0 left-0 bg-black group-hover:opacity-60 opacity-0"
       />
       <div
-        class="transition-transform duration-[300ms] group-hover:translate-y-0 absolute bottom-0 w-full h-1/4 p-2 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
+        class="transition-transform duration-[300ms] group-hover:translate-y-0 absolute bottom-0 w-full p-2 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
+        :class="[slideMode ? 'h-1/6' : 'h-1/4']"
       >
         <button>Смотреть</button>
         <button>Добавить в избранное</button>

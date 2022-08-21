@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center">
     <AppLogo />
-    <AppSlider />
+    <AppSlider :films="sliderFilms" :title="title" />
   </div>
   <section class="my-6">
     <div class="flex items-center justify-between">
@@ -67,6 +67,12 @@ export default defineComponent({
     },
     filmsGreedLoading() {
       return this.$store.state.search.isLoading
+    },
+    sliderFilms() {
+      return this.$store.state.slides.slides
+    },
+    title() {
+      return this.$store.state.slides.title
     }
   }
 })

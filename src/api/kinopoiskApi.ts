@@ -91,7 +91,9 @@ export class KinopoiskApi {
       .then((res) => res.json())
       .then((json) => {
         return {
-          films: json.films.map(this.removeExtraFields),
+          films: json.films
+            .map(this.removeExtraFields)
+            .sort(() => Math.random() - 0.5),
           title: AviableFilmsTypesNames[randomRange]
         }
       })
