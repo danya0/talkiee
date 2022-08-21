@@ -1,4 +1,4 @@
-import { FilmType, RandomFilms } from '@/types/filmType'
+import { FilmType, RandomFilms } from '@/types/kinopoisk.types'
 import { getRandomValueInRange } from '@/utils/utils'
 
 enum AviableFilmsTypes {

@@ -1,4 +1,4 @@
-import { FilmType } from '@/types/filmType'
+import { FilmType } from '@/types/kinopoisk.types'
 
 export interface SearchState {
   searchArray?: FilmType[]

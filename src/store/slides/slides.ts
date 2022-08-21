@@ -2,7 +2,7 @@ import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SlidesState } from '@/store/search/types'
 import { RootState } from '@/store/types'
 import { KinopoiskApi } from '@/api/kinopoiskApi'
-import { RandomFilms } from '@/types/filmType'
+import { RandomFilms } from '@/types/kinopoisk.types'
 
 export enum SlidesTypes {
   SET_NEW_LAST_UPDATE = 'SET_NEW_LAST_UPDATE',
