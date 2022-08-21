@@ -51,7 +51,7 @@ export default defineComponent({
         this.$nextTick(() => {
           console.log('this.$refs.filmGreed -->', this.$refs.filmGreed)
           ;(this.$refs.filmGreed as HTMLDivElement).scrollIntoView({
-            block: 'end',
+            block: 'start',
             behavior: 'smooth'
           })
         })

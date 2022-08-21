@@ -49,9 +49,16 @@ export class KinopoiskApi {
 
   async searchByKeyword(keyword: string, page?: number): Promise<FilmType> {
     const stringPage = typeof page === 'number' ? String(page) : page
-    console.log('this.apiKey -->', this.apiKey)
+    console.log(
+      'запрос',
+      'https://kinopoiskapiunofficial.tech/api/v2.2/films?' +
+        new URLSearchParams({
+          keyword: keyword,
+          page: stringPage ? stringPage : '1'
+        })
+    )
     return fetch(
-      'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?' +
+      'https://kinopoiskapiunofficial.tech/api/v2.2/films?' +
         new URLSearchParams({
           keyword: keyword,
           page: stringPage ? stringPage : '1'
@@ -65,7 +72,7 @@ export class KinopoiskApi {
       }
     )
       .then((res) => res.json())
-      .then((json) => json.films.map(this.removeExtraFields))
+      .then((json) => json.items.map(this.removeExtraFields))
       .catch((err) => console.log(err))
   }
 
