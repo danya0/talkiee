@@ -47,7 +47,7 @@ export default defineComponent({
   },
   watch: {
     filmsGreedLoading(newVal) {
-      if (!newVal && this.filmsArray.length) {
+      if (!newVal) {
         this.$nextTick(() => {
           console.log('this.$refs.filmGreed -->', this.$refs.filmGreed)
           ;(this.$refs.filmGreed as HTMLDivElement).scrollIntoView({

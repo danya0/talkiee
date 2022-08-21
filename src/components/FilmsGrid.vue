@@ -1,5 +1,16 @@
 <template>
-  <div>
+  <div
+    v-if="!filmsArray.length"
+    class="my-20 text-2xl flex justify-center items-center"
+  >
+    <span class="text-8xl">😵</span>
+    <span>
+      По запросу
+      <span class="text-green-700 font-bold">{{ keyword }}</span> ничего не
+      найдено
+    </span>
+  </div>
+  <div v-else>
     <p class="ml-6 mb-6 text-xl">
       Результат поиска по запросу:
       <span class="text-green-700 font-bold">{{ keyword }}</span>
