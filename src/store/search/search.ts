@@ -1,7 +1,7 @@
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SearchState } from '@/store/search/types'
 import { RootState } from '@/store/types'
-import { KinopoiskTypes } from '@/types/kinopoisk.types'
+import { FilmType } from '@/types/filmType'
 import { KinopoiskApi } from '@/api/kinopoiskApi'
 import { getRandomValueInRange } from '@/utils/utils'
 
@@ -37,7 +37,7 @@ const getters: GetterTree<SearchState, RootState> = {
 }
 
 const mutations: MutationTree<SearchState> = {
-  [SearchTypes.SET_FILMS](state: SearchState, filmsArray: KinopoiskTypes[]) {
+  [SearchTypes.SET_FILMS](state: SearchState, filmsArray: FilmType[]) {
     state.searchArray = filmsArray
   },
   [SearchTypes.LOADED_ON](state: SearchState) {

@@ -8,12 +8,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import NavBar from '@/components/NavBar.vue'
+import { SlidesTypes } from '@/store/slides/slides'
 
 export default defineComponent({
   components: { NavBar },
   data: () => {
     return {
       counter: 1
+    }
+  },
+  mounted() {
+    if (!this.$store.state.slides.lastUpdate) {
+      this.$store.commit(SlidesTypes.SET_NEW_LAST_UPDATE)
+      this.$store.dispatch(SlidesTypes.ADD_NEW_SLIDES)
     }
   }
 })

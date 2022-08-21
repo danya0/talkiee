@@ -1,7 +1,14 @@
-import { KinopoiskTypes } from '@/types/kinopoisk.types'
+import { FilmType } from '@/types/filmType'
 
 export interface SearchState {
-  searchArray?: KinopoiskTypes[]
+  searchArray?: FilmType[]
   filmNamesArray: string[]
+  isLoading: boolean
+}
+
+export interface SlidesState {
+  slides: FilmType[]
+  lastUpdate?: Date
+  title: string
   isLoading: boolean
 }
