@@ -6,7 +6,7 @@
   <section class="my-6">
     <div class="flex items-center justify-between flex-col md:flex-row">
       <h2
-        class="text-2xl md:text-5xl font-normal md:font-light with-line pl-[60px] mb-2 mb:mb-0"
+        class="text-2xl md:text-4xl xl:text-5xl font-normal md:font-light with-line pl-[60px] mb-2 mb:mb-0"
       >
         Ищете что-то конкретное?
       </h2>
