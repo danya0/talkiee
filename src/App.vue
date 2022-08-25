@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="box-border w-full px-[30px]">
     <NavBar />
     <router-view />
   </div>
