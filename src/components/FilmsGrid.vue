@@ -16,7 +16,7 @@
       <span class="text-green-700 font-bold">{{ keyword }}</span>
     </p>
     <div
-      class="grid grid-cols-6 grid-rows-[362px] gap-y-12 place-items-center mb-5"
+      class="flex flex-wrap grid-rows-[362px] justify-evenly gap-x-3 gap-y-6 lg:gap-y-12 mb-5"
     >
       <FilmComponent v-for="item in filmsArray" :key="item" :film="item" />
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="hover:opacity-100 transition-all duration-[.3s] opacity-80 rounded-lg bg-gray-300 h-[500px] absolute left-0"
+    class="hover:opacity-100 transition-all duration-[.3s] opacity-80 rounded-lg bg-gray-300 h-full absolute left-0"
     :class="{
       ['opacity-100']: mainSlide
     }"
@@ -49,7 +49,7 @@ export default defineComponent({
   },
   data() {
     return {
-      width: 350
+      width: 300
     }
   },
   computed: {

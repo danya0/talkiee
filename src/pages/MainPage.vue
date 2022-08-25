@@ -1,11 +1,13 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="flex items-center justify-center flex-col xl:flex-row">
     <AppLogo />
     <AppSlider :films="sliderFilms" :title="title" />
   </div>
   <section class="my-6">
-    <div class="flex items-center justify-between">
-      <h2 class="text-5xl font-light with-line pl-[60px]">
+    <div class="flex items-center justify-between flex-col md:flex-row">
+      <h2
+        class="text-2xl md:text-5xl font-normal md:font-light with-line pl-[60px] mb-2 mb:mb-0"
+      >
         Ищете что-то конкретное?
       </h2>
       <AppSearch :random-film-name="randomFilmName" @search="search" />

@@ -1,8 +1,8 @@
 <template>
   <div class="px-3 mx-20">
-    <p class="mb-2 text-2xl">{{ title }}</p>
+    <p class="mb-4 md:mb-2 text-2xl text-center md:text-left">{{ title }}</p>
     <div
-      class="-mr-[200px] flex justify-center relative h-[500px] overflow-hidden w-[820px]"
+      class="xl:-mr-[200px] mr-0 flex justify-center relative h-[480px] overflow-hidden w-[300px] md:w-[680px]"
     >
       <SliderCard
         ref="items"

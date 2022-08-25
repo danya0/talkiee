@@ -11,7 +11,7 @@
       <img
         :src="film.posterUrlPreview"
         :alt="filmName"
-        class="transition-transform duration-[300ms] ease-in-out h-full w-full object-cover group-hover:scale-105 with-before"
+        class="transition-transform min-h-[330px] duration-[300ms] ease-in-out h-full w-full object-cover group-hover:scale-105 with-before"
       />
       <div
         class="transition-opacity duration-[300ms] h-full w-full absolute top-0 left-0 bg-black group-hover:opacity-60 opacity-0"
