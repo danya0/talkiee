@@ -2,6 +2,7 @@
   <div
     class="group cursor-pointer h-full relative"
     :class="{ 'w-full': slideMode, 'w-[220px] ': !slideMode }"
+    @click="goToFilm"
   >
     <div
       class="relative rounded-lg w-full bg-green-700 overflow-hidden"
@@ -55,6 +56,14 @@ export default defineComponent({
   computed: {
     filmName() {
       return this.film.nameRu || this.film.nameEn
+    }
+  },
+  methods: {
+    goToFilm() {
+      this.$router.push({
+        path: `/movie/${this.film.filmId}`,
+        query: { filmName: this.filmName }
+      })
     }
   }
 })

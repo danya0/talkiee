@@ -2,7 +2,7 @@ import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SearchState } from '@/store/search/types'
 import { RootState } from '@/store/types'
 import { FilmType } from '@/types/kinopoisk.types'
-import { KinopoiskApi } from '@/api/kinopoiskApi'
+import { KinopoiskApi } from '@/services/kinopoiskApi'
 import { getRandomValueInRange } from '@/utils/utils'
 
 export enum SearchTypes {
