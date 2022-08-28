@@ -13,15 +13,16 @@
       <AppSearch :random-film-name="randomFilmName" @search="search" />
     </div>
   </section>
-  <div
-    v-if="filmsGreedLoading"
-    ref="loader"
-    class="w-full flex justify-center my-40"
-  >
-    <AppLoader />
-  </div>
-  <div v-else-if="filmsArray" ref="filmGreed">
-    <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6" />
+  <div ref="gridLoaderWrap">
+    <div
+      v-if="filmsGreedLoading"
+      class="w-full h-[420px] flex items-center justify-center"
+    >
+      <AppLoader />
+    </div>
+    <div v-else-if="filmsArray">
+      <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6" />
+    </div>
   </div>
 </template>
 
@@ -45,19 +46,10 @@ export default defineComponent({
     search(keyword: string) {
       this.$store.dispatch(SearchTypes.SEARCH_FILMS, keyword)
       this.keyword = keyword
-    }
-  },
-  watch: {
-    filmsGreedLoading(newVal) {
-      if (!newVal) {
-        this.$nextTick(() => {
-          console.log('this.$refs.filmGreed -->', this.$refs.filmGreed)
-          ;(this.$refs.filmGreed as HTMLDivElement).scrollIntoView({
-            block: 'start',
-            behavior: 'smooth'
-          })
-        })
-      }
+      ;(this.$refs.gridLoaderWrap as HTMLDivElement).scrollIntoView({
+        block: 'start',
+        behavior: 'smooth'
+      })
     }
   },
   computed: {
