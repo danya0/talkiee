@@ -20,8 +20,9 @@
     >
       <AppLoader />
     </div>
-    <div v-else-if="filmsArray">
+    <div class="mb-5 flex flex-col" v-else-if="filmsArray">
       <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6" />
+      <AppButton class="mx-auto"> Загрузить ещё </AppButton>
     </div>
   </div>
 </template>
@@ -34,9 +35,17 @@ import FilmsGrid from '@/components/FilmsGrid.vue'
 import AppSearch from '@/components/AppSearch.vue'
 import { SearchTypes } from '@/store/search/search'
 import AppLoader from '@/components/AppLoader.vue'
+import AppButton from '@/components/UI/AppButton.vue'
 
 export default defineComponent({
-  components: { AppLoader, AppSearch, FilmsGrid, AppSlider, AppLogo },
+  components: {
+    AppButton,
+    AppLoader,
+    AppSearch,
+    FilmsGrid,
+    AppSlider,
+    AppLogo
+  },
   data() {
     return {
       keyword: ''
