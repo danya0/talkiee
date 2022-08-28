@@ -6,12 +6,14 @@
     <slot v-else />
   </button>
 </template>
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import AppLoader from '@/components/AppLoader'
-export default {
+
+export default defineComponent({
   components: { AppLoader },
   props: {
     loaded: Boolean
   }
-}
+})
 </script>
