@@ -50,22 +50,29 @@ export default defineComponent({
   },
   data() {
     return {
-      currentSlide: 0 as number
+      currentSlide: 0 as number,
+      canToggle: true as boolean
     }
-  },
-  mounted() {
-    console.log('colors:', this.$refs.items)
   },
   methods: {
     nextSlide() {
-      if (this.currentSlide < this.films.length - 3) {
+      if (this.currentSlide < this.films.length - 3 && this.canToggle) {
+        this.cantToggle()
         this.currentSlide++
       }
     },
     prevSlide() {
-      if (this.currentSlide > 0) {
+      if (this.currentSlide > 0 && this.canToggle) {
+        this.cantToggle()
         this.currentSlide--
       }
+    },
+    cantToggle() {
+      this.canToggle = false
+      console.log('this.canToggle -->', this.canToggle)
+      setTimeout(() => {
+        this.canToggle = true
+      }, 500)
     }
   }
 })
