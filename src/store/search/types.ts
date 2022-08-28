@@ -1,9 +1,13 @@
 import { FilmType } from '@/types/kinopoisk.types'
+import { KinopoiskApi } from '@/services/kinopoiskApi'
 
 export interface SearchState {
+  kinopoiskApiInstance: KinopoiskApi
   searchArray?: FilmType[]
   filmNamesArray: string[]
   isLoading: boolean
+  isLoadingNextPage: boolean
+  totalPages?: number
 }
 
 export interface SlidesState {

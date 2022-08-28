@@ -22,7 +22,15 @@
     </div>
     <div class="mb-5 flex flex-col" v-else-if="filmsArray">
       <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6" />
-      <AppButton class="mx-auto"> Загрузить ещё </AppButton>
+      <AppButton
+        v-if="showNextPageButton"
+        :loaded="loadNextPage"
+        :disabled="loadNextPage"
+        @click="goToNextPage"
+        class="mx-auto"
+      >
+        Загрузить ещё
+      </AppButton>
     </div>
   </div>
 </template>
@@ -46,9 +54,10 @@ export default defineComponent({
     AppSlider,
     AppLogo
   },
-  data() {
+  data: () => {
     return {
-      keyword: ''
+      keyword: '',
+      currentPage: 1 as number
     }
   },
   methods: {
@@ -58,6 +67,12 @@ export default defineComponent({
       ;(this.$refs.gridLoaderWrap as HTMLDivElement).scrollIntoView({
         block: 'start',
         behavior: 'smooth'
+      })
+    },
+    goToNextPage() {
+      this.$store.dispatch(SearchTypes.LOAD_NEXT_PAGE, {
+        keyword: this.keyword,
+        page: ++this.currentPage
       })
     }
   },
@@ -76,6 +91,15 @@ export default defineComponent({
     },
     title() {
       return this.$store.state.slides.title
+    },
+    totalPages() {
+      return this.$store.state.search.totalPages
+    },
+    showNextPageButton() {
+      return this.currentPage < this.totalPages && this.totalPages > 1
+    },
+    loadNextPage() {
+      return this.$store.state.search.isLoadingNextPage
     }
   }
 })

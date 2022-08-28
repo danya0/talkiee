@@ -1,19 +1,26 @@
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SearchState } from '@/store/search/types'
 import { RootState } from '@/store/types'
-import { FilmType } from '@/types/kinopoisk.types'
+import { FilmType, SearchFilm } from '@/types/kinopoisk.types'
 import { KinopoiskApi } from '@/services/kinopoiskApi'
 import { getRandomValueInRange } from '@/utils/utils'
 
 export enum SearchTypes {
   SEARCH_FILMS = 'SEARCH_FILMS',
+  LOAD_NEXT_PAGE = 'LOAD_NEXT_PAGE',
+  // MUTATIONS
   SET_FILMS = 'SET_FILMS',
+  PUSH_FILMS = 'PUSH_FILMS',
+  SET_TOTAL_PAGES = 'SET_TOTAL_PAGES',
   LOADED_ON = 'LOADED_ON',
-  LOADED_OFF = 'LOADED_OFF'
+  LOADED_OFF = 'LOADED_OFF',
+  LOADING_NEXT_PAGE_TOGGLE = 'LOADING_NEXT_PAGE_TOGGLE'
 }
 
 const state: SearchState = {
+  kinopoiskApiInstance: new KinopoiskApi(),
   searchArray: undefined,
+  totalPages: undefined,
   filmNamesArray: [
     'Остров проклятых',
     'Эйфория',
@@ -25,6 +32,7 @@ const state: SearchState = {
     'Интерстеллар',
     'Человек-паук: нет пути домой'
   ],
+  isLoadingNextPage: false,
   isLoading: false
 }
 
@@ -45,17 +53,40 @@ const mutations: MutationTree<SearchState> = {
   },
   [SearchTypes.LOADED_OFF](state: SearchState) {
     state.isLoading = false
+  },
+  [SearchTypes.SET_TOTAL_PAGES](state: SearchState, pagesCount: number) {
+    state.totalPages = pagesCount
+  },
+  [SearchTypes.LOADING_NEXT_PAGE_TOGGLE](state: SearchState, value: boolean) {
+    state.isLoadingNextPage = value
+  },
+  [SearchTypes.PUSH_FILMS](state: SearchState, items: FilmType[]) {
+    state.searchArray = [...(state.searchArray as FilmType[]), ...items]
   }
 }
 
 const actions: ActionTree<SearchState, RootState> = {
-  [SearchTypes.SEARCH_FILMS]: ({ commit }, keyword: string) => {
+  [SearchTypes.SEARCH_FILMS]: ({ commit, state }, keyword: string) => {
     commit(SearchTypes.LOADED_ON)
-    new KinopoiskApi().searchByKeyword(keyword).then((res) => {
+    state.kinopoiskApiInstance.searchByKeyword(keyword).then((res) => {
       console.log('res -->', res)
       commit(SearchTypes.LOADED_OFF)
-      commit(SearchTypes.SET_FILMS, res)
+      commit(SearchTypes.SET_FILMS, (res as SearchFilm).films)
+      commit(SearchTypes.SET_TOTAL_PAGES, (res as SearchFilm).totalPages)
     })
+  },
+  [SearchTypes.LOAD_NEXT_PAGE]: (
+    { commit },
+    payload: { keyword: string; page: number }
+  ) => {
+    commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, true)
+    state.kinopoiskApiInstance
+      .searchByKeyword(payload.keyword, payload.page)
+      .then((res) => {
+        console.log('res -->', res)
+        commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, false)
+        commit(SearchTypes.PUSH_FILMS, (res as SearchFilm).films)
+      })
   }
 }
 

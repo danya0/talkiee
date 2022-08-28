@@ -1,4 +1,4 @@
-import { FilmType, RandomFilms } from '@/types/kinopoisk.types'
+import { FilmType, RandomFilms, SearchFilm } from '@/types/kinopoisk.types'
 import { getRandomValueInRange } from '@/utils/utils'
 
 enum AviableFilmsTypes {
@@ -48,7 +48,10 @@ export class KinopoiskApi {
     }
   }
 
-  async searchByKeyword(keyword: string, page?: number): Promise<FilmType> {
+  async searchByKeyword(
+    keyword: string,
+    page?: number
+  ): Promise<SearchFilm | void> {
     const stringPage = typeof page === 'number' ? String(page) : page
     console.log(
       'запрос',
@@ -73,7 +76,12 @@ export class KinopoiskApi {
       }
     )
       .then((res) => res.json())
-      .then((json) => json.items.map(this.removeExtraFields))
+      .then((json) => {
+        return {
+          totalPages: json.totalPages,
+          films: json.items.map(this.removeExtraFields)
+        }
+      })
       .catch((err) => console.log(err))
   }
 

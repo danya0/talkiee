@@ -7,6 +7,11 @@ export type FilmType = {
   rating: number | string
 }
 
+export type SearchFilm = {
+  totalPages: number
+  films: FilmType[]
+}
+
 export type RandomFilms = {
   title: string
   films: FilmType[]
