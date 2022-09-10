@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import AppLoader from '@/components/AppLoader'
+import AppLoader from '@/components/AppLoader.vue'
 
 export default defineComponent({
   components: { AppLoader },
