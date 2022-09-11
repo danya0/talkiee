@@ -2,8 +2,7 @@ import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SlidesState } from '@/store/search/types'
 import { RootState } from '@/store/types'
 import { KinopoiskApi } from '@/services/kinopoiskApi'
-import { FilmType, RandomFilms } from '@/types/kinopoisk.types'
-import { FavoriteMutations } from '@/store/favorite/types'
+import { RandomFilms } from '@/types/kinopoisk.types'
 import { findFavorite } from '@/store/search/helpers'
 
 export enum SlidesTypes {

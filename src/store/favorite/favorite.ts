@@ -12,7 +12,6 @@ const mutations: MutationTree<FavoriteState> = {
     state,
     payload: { film: FilmType; favorite: boolean }
   ) {
-    console.log('payload -->', payload)
     if (payload.favorite) {
       payload.film.favorite = true
       state.favorite.push(payload.film)

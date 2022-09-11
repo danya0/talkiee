@@ -40,8 +40,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { FavoriteMutations } from '@/store/favorite/types'
-import { mapMutations, mapActions } from 'vuex'
-import { SlidesTypes } from '@/store/slides/slides'
+import { mapMutations } from 'vuex'
 
 export default defineComponent({
   props: {
@@ -80,7 +79,6 @@ export default defineComponent({
         film: this.film,
         favorite: !this.favorite
       }
-      console.log('here')
       this[FavoriteMutations.FAVORITE_TOGGLE](favoriteObject)
       this.favorite = !this.favorite
     }
