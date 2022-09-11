@@ -19,8 +19,8 @@ export default defineComponent({
   },
   mounted() {
     if (!this.$store.state.slides.lastUpdate) {
-      this.$store.commit(SlidesTypes.SET_NEW_LAST_UPDATE)
-      this.$store.dispatch(SlidesTypes.ADD_NEW_SLIDES)
+      this.$store.commit(`slides/${SlidesTypes.SET_NEW_LAST_UPDATE}`)
+      this.$store.dispatch(`slides/${SlidesTypes.ADD_NEW_SLIDES}`)
     }
   }
 })

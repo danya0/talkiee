@@ -44,7 +44,8 @@ export class KinopoiskApi {
       posterUrlPreview: film.posterUrlPreview,
       year: film.year,
       filmId: film.kinopoiskId || film.filmId,
-      rating: film.ratingKinopoisk || film.rating
+      rating: film.ratingKinopoisk || film.rating,
+      favorite: false
     }
   }
 

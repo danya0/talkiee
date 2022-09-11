@@ -21,7 +21,16 @@
       <AppLoader />
     </div>
     <div class="mb-5 flex flex-col" v-else-if="filmsArray">
-      <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6" />
+      <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6">
+        <template #not-find-text>
+          <span class="text-8xl">😵</span>
+          <span>
+            По запросу
+            <span class="text-green-700 font-bold">{{ keyword }}</span> ничего
+            не найдено
+          </span>
+        </template>
+      </FilmsGrid>
       <AppButton
         v-if="showNextPageButton"
         :loaded="loadNextPage"

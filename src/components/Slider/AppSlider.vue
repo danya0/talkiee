@@ -69,7 +69,6 @@ export default defineComponent({
     },
     cantToggle() {
       this.canToggle = false
-      console.log('this.canToggle -->', this.canToggle)
       setTimeout(() => {
         this.canToggle = true
       }, 500)

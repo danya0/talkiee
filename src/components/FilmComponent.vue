@@ -17,11 +17,12 @@
         class="transition-opacity duration-[300ms] h-full w-full absolute top-0 left-0 bg-black group-hover:opacity-60 opacity-0"
       />
       <div
-        class="transition-transform duration-[300ms] group-hover:translate-y-0 absolute bottom-0 w-full p-2 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
-        :class="[slideMode ? 'h-1/6' : 'h-1/4']"
+        @click.stop
+        class="transition-transform duration-[300ms] h-auto group-hover:translate-y-0 absolute bottom-0 w-full px-2 py-3 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
       >
-        <button>Смотреть</button>
-        <button>Добавить в избранное</button>
+        <button @click="toggleFavorite">
+          {{ !favorite ? 'Добавить в избранное' : 'Удалить из избранного' }}
+        </button>
       </div>
     </div>
     <p v-if="!noTitle" class="text-lg truncate">
@@ -38,6 +39,9 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { FavoriteMutations } from '@/store/favorite/types'
+import { mapMutations, mapActions } from 'vuex'
+import { SlidesTypes } from '@/store/slides/slides'
 
 export default defineComponent({
   props: {
@@ -53,6 +57,11 @@ export default defineComponent({
       type: Object
     }
   },
+  data(props) {
+    return {
+      favorite: props.film.favorite
+    }
+  },
   computed: {
     filmName() {
       return this.film.nameRu || this.film.nameEn
@@ -64,6 +73,20 @@ export default defineComponent({
         path: `/movie/${this.film.filmId}`,
         query: { filmName: this.filmName }
       })
+    },
+    ...mapMutations('favorite', [FavoriteMutations.FAVORITE_TOGGLE]),
+    ...mapActions('slides', [SlidesTypes.FAVORITE_TOGGLE]),
+    toggleFavorite() {
+      const favoriteObject = {
+        film: this.film,
+        favorite: !this.favorite
+      }
+      if (this.slideMode) {
+        this[SlidesTypes.FAVORITE_TOGGLE](favoriteObject)
+      } else {
+        this[FavoriteMutations.FAVORITE_TOGGLE](favoriteObject)
+      }
+      this.favorite = !this.favorite
     }
   }
 })

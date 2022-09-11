@@ -1,3 +1,6 @@
 module.exports = {
-  publicPath: '/talkiee/'
+  publicPath: '/talkiee/',
+  devServer: {
+    port: 3000
+  }
 }

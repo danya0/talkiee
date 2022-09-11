@@ -5,6 +5,7 @@ export type FilmType = {
   year: string
   filmId: number
   rating: number | string
+  favorite: boolean
 }
 
 export type SearchFilm = {

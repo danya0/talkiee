@@ -3,15 +3,10 @@
     v-if="!filmsArray.length"
     class="my-20 text-2xl flex justify-center items-center"
   >
-    <span class="text-8xl">😵</span>
-    <span>
-      По запросу
-      <span class="text-green-700 font-bold">{{ keyword }}</span> ничего не
-      найдено
-    </span>
+    <slot name="not-find-text" />
   </div>
   <div v-else>
-    <p class="ml-6 mb-6 text-xl">
+    <p class="ml-6 mb-6 text-xl" v-if="!justGrid">
       Результат поиска по запросу:
       <span class="text-green-700 font-bold">{{ keyword }}</span>
     </p>
@@ -34,6 +29,10 @@ export default {
     keyword: {
       type: String,
       default: ''
+    },
+    justGrid: {
+      type: Boolean,
+      default: false
     }
   }
 }

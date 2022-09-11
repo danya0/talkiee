@@ -4,6 +4,7 @@ import { RootState } from '@/store/types'
 import { FilmType, SearchFilm } from '@/types/kinopoisk.types'
 import { KinopoiskApi } from '@/services/kinopoiskApi'
 import { getRandomValueInRange } from '@/utils/utils'
+import { findFavorite } from '@/store/search/helpers'
 
 export enum SearchTypes {
   SEARCH_FILMS = 'SEARCH_FILMS',
@@ -45,8 +46,11 @@ const getters: GetterTree<SearchState, RootState> = {
 }
 
 const mutations: MutationTree<SearchState> = {
-  [SearchTypes.SET_FILMS](state: SearchState, filmsArray: FilmType[]) {
-    state.searchArray = filmsArray
+  [SearchTypes.SET_FILMS](
+    state: SearchState,
+    payload: { items: FilmType[]; favoriteArray: FilmType[] }
+  ) {
+    state.searchArray = findFavorite(payload.items, payload.favoriteArray)
   },
   [SearchTypes.LOADED_ON](state: SearchState) {
     state.isLoading = true
@@ -60,23 +64,39 @@ const mutations: MutationTree<SearchState> = {
   [SearchTypes.LOADING_NEXT_PAGE_TOGGLE](state: SearchState, value: boolean) {
     state.isLoadingNextPage = value
   },
-  [SearchTypes.PUSH_FILMS](state: SearchState, items: FilmType[]) {
-    state.searchArray = [...(state.searchArray as FilmType[]), ...items]
+  [SearchTypes.PUSH_FILMS](
+    state: SearchState,
+    payload: { items: FilmType[]; favoriteArray: FilmType[] }
+  ) {
+    if (!state.searchArray?.length) {
+      state.searchArray = findFavorite(payload.items, payload.favoriteArray)
+    } else {
+      state.searchArray = [
+        ...(state.searchArray as FilmType[]),
+        ...findFavorite(payload.items, payload.favoriteArray)
+      ]
+    }
   }
 }
 
 const actions: ActionTree<SearchState, RootState> = {
-  [SearchTypes.SEARCH_FILMS]: ({ commit, state }, keyword: string) => {
+  [SearchTypes.SEARCH_FILMS]: (
+    { commit, state, rootState },
+    keyword: string
+  ) => {
     commit(SearchTypes.LOADED_ON)
     state.kinopoiskApiInstance.searchByKeyword(keyword).then((res) => {
       console.log('res -->', res)
       commit(SearchTypes.LOADED_OFF)
-      commit(SearchTypes.SET_FILMS, (res as SearchFilm).films)
+      commit(SearchTypes.SET_FILMS, {
+        items: (res as SearchFilm).films,
+        favoriteArray: rootState.favorite.favorite
+      })
       commit(SearchTypes.SET_TOTAL_PAGES, (res as SearchFilm).totalPages)
     })
   },
   [SearchTypes.LOAD_NEXT_PAGE]: (
-    { commit },
+    { commit, rootState },
     payload: { keyword: string; page: number }
   ) => {
     commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, true)
@@ -85,7 +105,10 @@ const actions: ActionTree<SearchState, RootState> = {
       .then((res) => {
         console.log('res -->', res)
         commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, false)
-        commit(SearchTypes.PUSH_FILMS, (res as SearchFilm).films)
+        commit(SearchTypes.PUSH_FILMS, {
+          items: (res as SearchFilm).films,
+          favoriteArray: rootState.favorite.favorite
+        })
       })
   }
 }
