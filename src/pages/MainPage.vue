@@ -53,6 +53,7 @@ import AppSearch from '@/components/AppSearch.vue'
 import { SearchTypes } from '@/store/search/search'
 import AppLoader from '@/components/AppLoader.vue'
 import AppButton from '@/components/UI/AppButton.vue'
+import { SearchState } from '@/store/search/types'
 
 export default defineComponent({
   components: {
@@ -83,6 +84,13 @@ export default defineComponent({
         keyword: this.keyword,
         page: ++this.currentPage
       })
+    }
+  },
+  mounted() {
+    const keywordFromState = (this.$store.state.search as SearchState)
+      .searchKeyword
+    if (keywordFromState) {
+      this.keyword = keywordFromState
     }
   },
   computed: {

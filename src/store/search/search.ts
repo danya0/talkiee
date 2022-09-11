@@ -19,6 +19,7 @@ export enum SearchTypes {
 }
 
 const state: SearchState = {
+  searchKeyword: '',
   kinopoiskApiInstance: new KinopoiskApi(),
   searchArray: undefined,
   totalPages: undefined,
@@ -48,9 +49,10 @@ const getters: GetterTree<SearchState, RootState> = {
 const mutations: MutationTree<SearchState> = {
   [SearchTypes.SET_FILMS](
     state: SearchState,
-    payload: { items: FilmType[]; favoriteArray: FilmType[] }
+    payload: { items: FilmType[]; favoriteArray: FilmType[]; keyword: string }
   ) {
     state.searchArray = findFavorite(payload.items, payload.favoriteArray)
+    state.searchKeyword = payload.keyword
   },
   [SearchTypes.LOADED_ON](state: SearchState) {
     state.isLoading = true
@@ -90,7 +92,8 @@ const actions: ActionTree<SearchState, RootState> = {
       commit(SearchTypes.LOADED_OFF)
       commit(SearchTypes.SET_FILMS, {
         items: (res as SearchFilm).films,
-        favoriteArray: rootState.favorite.favorite
+        favoriteArray: rootState.favorite.favorite,
+        keyword
       })
       commit(SearchTypes.SET_TOTAL_PAGES, (res as SearchFilm).totalPages)
     })

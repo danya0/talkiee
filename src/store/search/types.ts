@@ -2,6 +2,7 @@ import { FilmType } from '@/types/kinopoisk.types'
 import { KinopoiskApi } from '@/services/kinopoiskApi'
 
 export interface SearchState {
+  searchKeyword: string
   kinopoiskApiInstance: KinopoiskApi
   searchArray?: FilmType[]
   filmNamesArray: string[]
