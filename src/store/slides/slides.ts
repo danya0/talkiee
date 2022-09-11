@@ -4,16 +4,19 @@ import { RootState } from '@/store/types'
 import { KinopoiskApi } from '@/services/kinopoiskApi'
 import { FilmType, RandomFilms } from '@/types/kinopoisk.types'
 import { FavoriteMutations } from '@/store/favorite/types'
+import { findFavorite } from '@/store/search/helpers'
 
 export enum SlidesTypes {
   SET_NEW_LAST_UPDATE = 'SET_NEW_LAST_UPDATE',
   ADD_NEW_SLIDES = 'ADD_NEW_SLIDES',
-  LOADING_TOGGLE = 'LOADING_TOGGLE',
-  FAVORITE_TOGGLE = 'FAVORITE_TOGGLE'
+  LOADING_TOGGLE = 'LOADING_TOGGLE'
 }
 
 const state: SlidesState = {
-  slides: JSON.parse(localStorage.getItem('slides') as string)?.slides || [],
+  slides:
+    findFavorite(
+      JSON.parse(localStorage.getItem('slides') as string)?.slides
+    ) || [],
   title: JSON.parse(localStorage.getItem('slides') as string)?.title || '',
   lastUpdate: localStorage.getItem('lastUpdate')
     ? new Date(+(localStorage.getItem('lastUpdate') as string))
@@ -48,20 +51,6 @@ const mutations: MutationTree<SlidesState> = {
   },
   [SlidesTypes.LOADING_TOGGLE](state: SlidesState, value: boolean) {
     state.isLoading = value
-  },
-  [SlidesTypes.FAVORITE_TOGGLE](
-    state,
-    payload: { film: FilmType; favorite: boolean }
-  ) {
-    const filmIndex = state.slides.indexOf(payload.film)
-    state.slides[filmIndex].favorite = payload.favorite
-    localStorage.setItem(
-      'slides',
-      JSON.stringify({
-        slides: state.slides,
-        title: state.title
-      })
-    )
   }
 }
 
@@ -72,15 +61,6 @@ const actions: ActionTree<SlidesState, RootState> = {
       console.log('res -->', res)
       commit(SlidesTypes.ADD_NEW_SLIDES, res)
       commit(SlidesTypes.LOADING_TOGGLE, false)
-    })
-  },
-  [SlidesTypes.FAVORITE_TOGGLE](
-    { commit },
-    payload: { film: FilmType; favorite: boolean }
-  ) {
-    commit(SlidesTypes.FAVORITE_TOGGLE, payload)
-    commit(`favorite/${FavoriteMutations.FAVORITE_TOGGLE}`, payload, {
-      root: true
     })
   }
 }

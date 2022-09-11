@@ -1,21 +1,28 @@
 <template>
   <div class="flex items-center">
     <transition name="search-input">
-      <form @submit.prevent="search">
+      <form
+        @submit.prevent="search"
+        class="border-2 h-auto mr-2 border-green-700 px-3 py-2 rounded-lg text-black placeholder:text-black w-[300px] placeholder:text-gray-400 flex justify-between"
+      >
         <input
           v-model="searchInput"
           ref="searchInput"
-          class="border-2 h-auto mr-2 border-green-700 px-3 py-2 rounded-lg text-black placeholder:text-black w-[300px] placeholder:text-gray-400"
+          class="outline-0"
           :placeholder="randomFilmName"
           type="text"
         />
+        <button>
+          <SvgIcons
+            class="w-[25px] h-[25px] mr-2 cursor-pointer"
+            svg="search"
+            width-prop="25"
+            height-prop="25"
+            @click="search"
+          />
+        </button>
       </form>
     </transition>
-    <SvgIcons
-      class="w-[35px] h-[35px] mr-2 cursor-pointer"
-      svg="search"
-      @click="search"
-    />
   </div>
 </template>
 

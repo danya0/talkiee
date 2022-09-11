@@ -74,9 +74,11 @@ export default defineComponent({
     search(keyword: string) {
       this.$store.dispatch(SearchTypes.SEARCH_FILMS, keyword)
       this.keyword = keyword
-      ;(this.$refs.gridLoaderWrap as HTMLDivElement).scrollIntoView({
-        block: 'start',
-        behavior: 'smooth'
+      this.$nextTick(() => {
+        ;(this.$refs.gridLoaderWrap as HTMLDivElement).scrollIntoView({
+          block: 'start',
+          behavior: 'smooth'
+        })
       })
     },
     goToNextPage() {

@@ -49,9 +49,9 @@ const getters: GetterTree<SearchState, RootState> = {
 const mutations: MutationTree<SearchState> = {
   [SearchTypes.SET_FILMS](
     state: SearchState,
-    payload: { items: FilmType[]; favoriteArray: FilmType[]; keyword: string }
+    payload: { items: FilmType[]; keyword: string }
   ) {
-    state.searchArray = findFavorite(payload.items, payload.favoriteArray)
+    state.searchArray = findFavorite(payload.items)
     state.searchKeyword = payload.keyword
   },
   [SearchTypes.LOADED_ON](state: SearchState) {
@@ -66,40 +66,28 @@ const mutations: MutationTree<SearchState> = {
   [SearchTypes.LOADING_NEXT_PAGE_TOGGLE](state: SearchState, value: boolean) {
     state.isLoadingNextPage = value
   },
-  [SearchTypes.PUSH_FILMS](
-    state: SearchState,
-    payload: { items: FilmType[]; favoriteArray: FilmType[] }
-  ) {
-    if (!state.searchArray?.length) {
-      state.searchArray = findFavorite(payload.items, payload.favoriteArray)
-    } else {
-      state.searchArray = [
-        ...(state.searchArray as FilmType[]),
-        ...findFavorite(payload.items, payload.favoriteArray)
-      ]
-    }
+  [SearchTypes.PUSH_FILMS](state: SearchState, payload: { items: FilmType[] }) {
+    state.searchArray = [
+      ...(state.searchArray as FilmType[]),
+      ...findFavorite(payload.items)
+    ]
   }
 }
 
 const actions: ActionTree<SearchState, RootState> = {
-  [SearchTypes.SEARCH_FILMS]: (
-    { commit, state, rootState },
-    keyword: string
-  ) => {
+  [SearchTypes.SEARCH_FILMS]: ({ commit, state }, keyword: string) => {
     commit(SearchTypes.LOADED_ON)
     state.kinopoiskApiInstance.searchByKeyword(keyword).then((res) => {
-      console.log('res -->', res)
       commit(SearchTypes.LOADED_OFF)
       commit(SearchTypes.SET_FILMS, {
         items: (res as SearchFilm).films,
-        favoriteArray: rootState.favorite.favorite,
         keyword
       })
       commit(SearchTypes.SET_TOTAL_PAGES, (res as SearchFilm).totalPages)
     })
   },
   [SearchTypes.LOAD_NEXT_PAGE]: (
-    { commit, rootState },
+    { commit },
     payload: { keyword: string; page: number }
   ) => {
     commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, true)
@@ -109,8 +97,7 @@ const actions: ActionTree<SearchState, RootState> = {
         console.log('res -->', res)
         commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, false)
         commit(SearchTypes.PUSH_FILMS, {
-          items: (res as SearchFilm).films,
-          favoriteArray: rootState.favorite.favorite
+          items: (res as SearchFilm).films
         })
       })
   }

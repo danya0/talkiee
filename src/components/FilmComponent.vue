@@ -75,17 +75,13 @@ export default defineComponent({
       })
     },
     ...mapMutations('favorite', [FavoriteMutations.FAVORITE_TOGGLE]),
-    ...mapActions('slides', [SlidesTypes.FAVORITE_TOGGLE]),
     toggleFavorite() {
       const favoriteObject = {
         film: this.film,
         favorite: !this.favorite
       }
-      if (this.slideMode) {
-        this[SlidesTypes.FAVORITE_TOGGLE](favoriteObject)
-      } else {
-        this[FavoriteMutations.FAVORITE_TOGGLE](favoriteObject)
-      }
+      console.log('here')
+      this[FavoriteMutations.FAVORITE_TOGGLE](favoriteObject)
       this.favorite = !this.favorite
     }
   }
