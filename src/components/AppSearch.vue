@@ -8,7 +8,7 @@
         <input
           v-model="searchInput"
           ref="searchInput"
-          class="outline-0"
+          class="outline-0 grow"
           :placeholder="randomFilmName"
           type="text"
         />

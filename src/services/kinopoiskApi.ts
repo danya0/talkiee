@@ -116,4 +116,6 @@ export class KinopoiskApi {
       })
       .catch((err) => console.log(err))
   }
+
+  // async getTrailer(filmId: number): Promise<any> {}
 }
