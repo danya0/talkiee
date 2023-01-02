@@ -5,7 +5,8 @@ export const findFavorite = (filmsArray: FilmType[]): FilmType[] => {
     return []
   }
   const copy = [...filmsArray]
-  const favoriteArray = JSON.parse(localStorage.getItem('favorite') as string)
+  const favoriteArray =
+    JSON.parse(localStorage.getItem('favorite') as string) || []
   if (!favoriteArray.length) {
     return copy
   }
