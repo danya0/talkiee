@@ -1,7 +1,7 @@
 import { FilmType } from '@/types/kinopoisk.types'
 
 export const findFavorite = (filmsArray: FilmType[]): FilmType[] => {
-  if (!filmsArray?.length) {
+  if (!filmsArray || !filmsArray.length) {
     return []
   }
   const copy = [...filmsArray]
