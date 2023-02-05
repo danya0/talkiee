@@ -2,6 +2,8 @@
   <div
     class="group cursor-pointer h-full relative"
     :class="{ 'w-full': slideMode, 'w-[220px] ': !slideMode }"
+    @mouseenter="mouseHere = true"
+    @mouseleave="mouseLeave"
     @click="goToFilm"
   >
     <div
@@ -18,12 +20,27 @@
       />
       <div
         @click.stop
-        class="transition-transform duration-[300ms] h-auto group-hover:translate-y-0 absolute bottom-0 w-full px-2 py-3 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
+        class="transition-transform duration-[300ms] h-auto gap-y-2 group-hover:translate-y-0 absolute bottom-0 w-full px-2 py-3 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
       >
+        <button @click="showTrailer = true">Смотреть трейлер</button>
         <button @click="toggleFavorite">
           {{ !favorite ? 'Добавить в избранное' : 'Удалить из избранного' }}
         </button>
       </div>
+      <transition
+        enter-from-class="translate-y-full"
+        enter-to-class="translate-y-0"
+        leave-to-class="translate-y-full"
+      >
+        <div
+          v-if="showTrailer && mouseHere"
+          class="absolute bottom-0 left-0 w-full px-2 py-3 bg-green-700 text-white flex flex-col items-center gap-y-2 transition-transform duration-300"
+          @click.stop
+        >
+          <button>YouTube</button>
+          <button>Кинопоиск</button>
+        </div>
+      </transition>
     </div>
     <p v-if="!noTitle" class="text-lg truncate">
       {{ filmName }}
@@ -37,10 +54,11 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
 import { FavoriteMutations } from '@/store/favorite/types'
 import { mapMutations } from 'vuex'
+import { FilmType } from '@/types/kinopoisk.types'
 
 export default defineComponent({
   props: {
@@ -53,12 +71,15 @@ export default defineComponent({
       default: false
     },
     film: {
-      type: Object
+      type: Object as PropType<FilmType>,
+      required: true
     }
   },
   data(props) {
     return {
-      favorite: props.film.favorite
+      showTrailer: false as boolean,
+      favorite: props.film.favorite as boolean,
+      mouseHere: false as boolean
     }
   },
   computed: {
@@ -81,6 +102,10 @@ export default defineComponent({
       }
       this[FavoriteMutations.FAVORITE_TOGGLE](favoriteObject)
       this.favorite = !this.favorite
+    },
+    mouseLeave() {
+      this.mouseHere = false
+      this.showTrailer = false
     }
   }
 })
