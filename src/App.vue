@@ -19,7 +19,10 @@ export default defineComponent({
     }
   },
   mounted() {
-    if (!this.$store.state.slides.lastUpdate) {
+    if (
+      !this.$store.state.slides.lastUpdate ||
+      this.$store.getters['slides/checkIfMoreDayHasPassed']
+    ) {
       this.$store.commit(`slides/${SlidesTypes.SET_NEW_LAST_UPDATE}`)
       this.$store.dispatch(`slides/${SlidesTypes.ADD_NEW_SLIDES}`)
     }
