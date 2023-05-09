@@ -1,14 +1,15 @@
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex'
 import { SearchState } from '@/store/search/types'
 import { RootState } from '@/store/types'
-import { FilmType, SearchFilm } from '@/types/kinopoisk.types'
-import { KinopoiskApi } from '@/services/kinopoiskApi'
+import { FilmType, SearchFilm, TrailerFilm } from '@/types/kinopoisk.types'
+import { KinopoiskApi, KPApi } from '@/services/kinopoiskApi'
 import { getRandomValueInRange } from '@/utils/utils'
 import { findFavorite } from '@/store/search/helpers'
 
 export enum SearchTypes {
   SEARCH_FILMS = 'SEARCH_FILMS',
   LOAD_NEXT_PAGE = 'LOAD_NEXT_PAGE',
+  SEARCH_TRAILER = 'SEARCH_TRAILER',
   // MUTATIONS
   SET_FILMS = 'SET_FILMS',
   PUSH_FILMS = 'PUSH_FILMS',
@@ -35,7 +36,8 @@ const state: SearchState = {
     'Человек-паук: нет пути домой'
   ],
   isLoadingNextPage: false,
-  isLoading: false
+  isLoading: false,
+  trailerFilmMap: {}
 }
 
 const getters: GetterTree<SearchState, RootState> = {
@@ -43,6 +45,9 @@ const getters: GetterTree<SearchState, RootState> = {
     return state.filmNamesArray[
       getRandomValueInRange(0, state.filmNamesArray.length - 1)
     ]
+  },
+  getTrailerById(state) {
+    return (id: number) => state.trailerFilmMap[id]
   }
 }
 
@@ -71,27 +76,32 @@ const mutations: MutationTree<SearchState> = {
       ...(state.searchArray as FilmType[]),
       ...findFavorite(payload.items)
     ]
+  },
+  setTrailer(state, payload: { filmId: number; trailers: TrailerFilm[] }) {
+    state.trailerFilmMap[payload.filmId] = payload.trailers
   }
 }
 
 const actions: ActionTree<SearchState, RootState> = {
   [SearchTypes.SEARCH_FILMS]: ({ commit, state }, keyword: string) => {
     commit(SearchTypes.LOADED_ON)
-    state.kinopoiskApiInstance.searchByKeyword(keyword).then((res) => {
-      commit(SearchTypes.LOADED_OFF)
-      commit(SearchTypes.SET_FILMS, {
-        items: (res as SearchFilm).films,
-        keyword
+    KPApi.getContext()
+      .searchByKeyword(keyword)
+      .then((res) => {
+        commit(SearchTypes.LOADED_OFF)
+        commit(SearchTypes.SET_FILMS, {
+          items: (res as SearchFilm).films,
+          keyword
+        })
+        commit(SearchTypes.SET_TOTAL_PAGES, (res as SearchFilm).totalPages)
       })
-      commit(SearchTypes.SET_TOTAL_PAGES, (res as SearchFilm).totalPages)
-    })
   },
   [SearchTypes.LOAD_NEXT_PAGE]: (
     { commit },
     payload: { keyword: string; page: number }
   ) => {
     commit(SearchTypes.LOADING_NEXT_PAGE_TOGGLE, true)
-    state.kinopoiskApiInstance
+    KPApi.getContext()
       .searchByKeyword(payload.keyword, payload.page)
       .then((res) => {
         console.log('res -->', res)
@@ -100,6 +110,13 @@ const actions: ActionTree<SearchState, RootState> = {
           items: (res as SearchFilm).films
         })
       })
+  },
+  [SearchTypes.SEARCH_TRAILER]: async (
+    { commit },
+    payload: { filmId: number }
+  ) => {
+    const trailers = await KPApi.getContext().getTrailer(payload.filmId)
+    commit('setTrailer', { filmId: payload.filmId, trailers })
   }
 }
 

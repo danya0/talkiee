@@ -22,7 +22,7 @@
         @click.stop
         class="transition-transform duration-[300ms] h-auto gap-y-2 group-hover:translate-y-0 absolute bottom-0 w-full px-2 py-3 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
       >
-        <button @click="showTrailer = true">Смотреть трейлер</button>
+        <button @click="getTrailer">Смотреть трейлер</button>
         <button @click="toggleFavorite">
           {{ !favorite ? 'Добавить в избранное' : 'Удалить из избранного' }}
         </button>
@@ -34,11 +34,22 @@
       >
         <div
           v-if="showTrailer && mouseHere"
-          class="absolute bottom-0 left-0 w-full px-2 py-3 bg-green-700 text-white flex flex-col items-center gap-y-2 transition-transform duration-300"
+          class="absolute max-h-full overflow-y-auto bottom-0 left-0 w-full px-2 py-3 bg-green-700 text-white flex flex-col items-center text-center gap-y-2 transition-transform duration-300"
           @click.stop
         >
-          <button>YouTube</button>
-          <button>Кинопоиск</button>
+          <template v-if="trailers.length">
+            <a
+              v-for="trailer in trailers"
+              target="_blank"
+              :key="trailer.url"
+              :href="trailer.url"
+            >
+              {{ trailer.name }}
+            </a>
+          </template>
+          <p class="text-center py-1" v-else>
+            По данному запросу не нашлось трейлеров :(
+          </p>
         </div>
       </transition>
     </div>
@@ -57,8 +68,9 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { FavoriteMutations } from '@/store/favorite/types'
-import { mapMutations } from 'vuex'
-import { FilmType } from '@/types/kinopoisk.types'
+import { mapActions, mapMutations } from 'vuex'
+import { FilmType, TrailerFilm } from '@/types/kinopoisk.types'
+import { SearchTypes } from '@/store/search/search'
 
 export default defineComponent({
   props: {
@@ -85,6 +97,9 @@ export default defineComponent({
   computed: {
     filmName() {
       return this.film.nameRu || this.film.nameEn
+    },
+    trailers(): TrailerFilm[] {
+      return this.$store.getters['getTrailerById'](this.film.filmId)
     }
   },
   methods: {
@@ -106,6 +121,14 @@ export default defineComponent({
     mouseLeave() {
       this.mouseHere = false
       this.showTrailer = false
+    },
+    async getTrailer() {
+      if (!this.trailers) {
+        await this.$store.dispatch(SearchTypes.SEARCH_TRAILER, {
+          filmId: this.film.filmId
+        })
+      }
+      this.showTrailer = true
     }
   }
 })

@@ -1,4 +1,9 @@
-import { FilmType, RandomFilms, SearchFilm } from '@/types/kinopoisk.types'
+import {
+  FilmType,
+  RandomFilms,
+  SearchFilm,
+  TrailerFilm
+} from '@/types/kinopoisk.types'
 import { getRandomValueInRange } from '@/utils/utils'
 
 enum AviableFilmsTypes {
@@ -117,5 +122,28 @@ export class KinopoiskApi {
       .catch((err) => console.log(err))
   }
 
-  // async getTrailer(filmId: number): Promise<any> {}
+  async getTrailer(filmId: number): Promise<TrailerFilm[]> {
+    return fetch(
+      `https://kinopoiskapiunofficial.tech/api/v2.2/films/${filmId}/videos`,
+      {
+        method: 'GET',
+        headers: {
+          'X-API-KEY': this.apiKey,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((res) => res.json())
+      .then((json) => json.items)
+  }
+}
+
+export class KPApi {
+  private static context: null | KinopoiskApi
+  public static getContext() {
+    if (!this.context) {
+      this.context = new KinopoiskApi()
+    }
+    return this.context
+  }
 }

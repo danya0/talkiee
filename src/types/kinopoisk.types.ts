@@ -17,3 +17,9 @@ export type RandomFilms = {
   title: string
   films: FilmType[]
 }
+
+export type TrailerFilm = {
+  name: string
+  site: string
+  url: string
+}

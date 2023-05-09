@@ -1,4 +1,4 @@
-import { FilmType } from '@/types/kinopoisk.types'
+import { FilmType, TrailerFilm } from '@/types/kinopoisk.types'
 import { KinopoiskApi } from '@/services/kinopoiskApi'
 
 export interface SearchState {
@@ -9,6 +9,7 @@ export interface SearchState {
   isLoading: boolean
   isLoadingNextPage: boolean
   totalPages?: number
+  trailerFilmMap: { [key: number]: TrailerFilm[] }
 }
 
 export interface SlidesState {
