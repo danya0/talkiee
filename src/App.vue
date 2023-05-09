@@ -1,17 +1,18 @@
 <template>
-  <div class="box-border w-full px-[30px]">
+  <AppContainer>
     <NavBar />
-    <router-view />
-  </div>
+  </AppContainer>
+  <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import { SlidesTypes } from '@/store/slides/slides'
+import AppContainer from '@/components/AppContainer.vue'
 
 export default defineComponent({
-  components: { NavBar },
+  components: { AppContainer, NavBar },
   data: () => {
     return {
       counter: 1

@@ -1,47 +1,49 @@
 <template>
-  <div class="flex items-center justify-center flex-col xl:flex-row">
-    <AppLogo />
-    <AppSlider :films="sliderFilms" :title="title" />
-  </div>
-  <section class="my-6">
-    <div class="flex items-center justify-between flex-col md:flex-row">
-      <h2
-        class="text-2xl md:text-4xl xl:text-5xl font-normal md:font-light with-line pl-[60px] mb-2 mb:mb-0"
+  <AppContainer>
+    <div class="flex items-center justify-center flex-col xl:flex-row">
+      <AppLogo />
+      <AppSlider :films="sliderFilms" :title="title" />
+    </div>
+    <section class="my-6">
+      <div class="flex items-center justify-between flex-col md:flex-row">
+        <h2
+          class="text-2xl md:text-4xl xl:text-5xl font-normal md:font-light with-line pl-[60px] mb-2 mb:mb-0"
+        >
+          Ищете что-то конкретное?
+        </h2>
+        <AppSearch :random-film-name="randomFilmName" @search="search" />
+      </div>
+    </section>
+    <div ref="gridLoaderWrap">
+      <div
+        v-if="filmsGreedLoading"
+        class="w-full h-[420px] flex items-center justify-center"
       >
-        Ищете что-то конкретное?
-      </h2>
-      <AppSearch :random-film-name="randomFilmName" @search="search" />
+        <AppLoader />
+      </div>
+      <div class="mb-5 flex flex-col" v-else-if="filmsArray">
+        <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6">
+          <template #not-find-text>
+            <span class="text-8xl">😵</span>
+            <span>
+              По запросу
+              <span class="text-green-700 font-bold">{{ keyword }}</span> ничего
+              не найдено
+            </span>
+          </template>
+        </FilmsGrid>
+        <AppButton
+          v-if="showNextPageButton"
+          :loaded="loadNextPage"
+          :disabled="loadNextPage"
+          @click="goToNextPage"
+          class="mx-auto"
+        >
+          Загрузить ещё
+        </AppButton>
+      </div>
     </div>
-  </section>
-  <div ref="gridLoaderWrap">
-    <div
-      v-if="filmsGreedLoading"
-      class="w-full h-[420px] flex items-center justify-center"
-    >
-      <AppLoader />
-    </div>
-    <div class="mb-5 flex flex-col" v-else-if="filmsArray">
-      <FilmsGrid :films-array="filmsArray" :keyword="keyword" class="mb-6">
-        <template #not-find-text>
-          <span class="text-8xl">😵</span>
-          <span>
-            По запросу
-            <span class="text-green-700 font-bold">{{ keyword }}</span> ничего
-            не найдено
-          </span>
-        </template>
-      </FilmsGrid>
-      <AppButton
-        v-if="showNextPageButton"
-        :loaded="loadNextPage"
-        :disabled="loadNextPage"
-        @click="goToNextPage"
-        class="mx-auto"
-      >
-        Загрузить ещё
-      </AppButton>
-    </div>
-  </div>
+  </AppContainer>
 </template>
 
 <script lang="ts">
@@ -54,9 +56,11 @@ import { SearchTypes } from '@/store/search/search'
 import AppLoader from '@/components/AppLoader.vue'
 import AppButton from '@/components/UI/AppButton.vue'
 import { SearchState } from '@/store/search/types'
+import AppContainer from '@/components/AppContainer.vue'
 
 export default defineComponent({
   components: {
+    AppContainer,
     AppButton,
     AppLoader,
     AppSearch,
