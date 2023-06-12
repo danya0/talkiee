@@ -1,31 +1,38 @@
 <template>
-  <div
+  <label
     class="group cursor-pointer h-full relative"
     :class="{ 'w-full': slideMode, 'w-[220px] ': !slideMode }"
     @mouseenter="mouseHere = true"
     @mouseleave="mouseLeave"
-    @click="goToFilm"
+    @click="showFilmOrMenu"
   >
     <div
       class="relative rounded-lg w-full bg-green-700 overflow-hidden"
       :class="[slideMode ? 'h-full' : 'h-[90%] mb-1']"
     >
+      <input class="peer hidden" v-if="isMobile" type="radio" name="filmCard" />
       <img
         :src="film.posterUrlPreview"
         :alt="filmName"
-        class="transition-transform min-h-[330px] duration-[300ms] ease-in-out h-full w-full object-cover group-hover:scale-105 with-before"
+        class="transition-transform min-h-[330px] duration-[300ms] ease-in-out h-full w-full object-cover with-before peer-checked:scale-105"
+        :class="{ 'group-hover:scale-105': !isMobile }"
       />
       <div
-        class="transition-opacity duration-[300ms] h-full w-full absolute top-0 left-0 bg-black group-hover:opacity-60 opacity-0"
+        class="transition-opacity duration-[300ms] h-full w-full absolute top-0 left-0 bg-black opacity-0 peer-checked:opacity-60"
+        :class="{ 'group-hover:opacity-60': !isMobile }"
       />
       <div
         @click.stop
-        class="transition-transform duration-[300ms] h-auto gap-y-2 group-hover:translate-y-0 absolute bottom-0 w-full px-2 py-3 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full"
+        class="transition-transform duration-[300ms] h-auto gap-y-2 absolute bottom-0 w-full px-2 py-3 flex items-center flex-col justify-between rounded-lg bg-black text-white translate-y-full peer-checked:translate-y-0"
+        :class="{
+          'group-hover:translate-y-0': !isMobile
+        }"
       >
-        <button @click="getTrailer">Смотреть трейлер</button>
+        <button v-if="isMobile" @click="goToFilm">Смотреть онлайн</button>
         <button @click="toggleFavorite">
           {{ !favorite ? 'Добавить в избранное' : 'Удалить из избранного' }}
         </button>
+        <button @click="getTrailer">Список трейлеров</button>
       </div>
       <transition
         enter-from-class="translate-y-full"
@@ -62,7 +69,7 @@
     >
       ⭐️ {{ film.rating }}
     </div>
-  </div>
+  </label>
 </template>
 
 <script lang="ts">
@@ -71,6 +78,7 @@ import { FavoriteMutations } from '@/store/favorite/types'
 import { mapActions, mapMutations } from 'vuex'
 import { FilmType, TrailerFilm } from '@/types/kinopoisk.types'
 import { SearchTypes } from '@/store/search/search'
+import { isMobile } from '@/utils/utils'
 
 export default defineComponent({
   props: {
@@ -95,6 +103,7 @@ export default defineComponent({
     }
   },
   computed: {
+    isMobile,
     filmName() {
       return this.film.nameRu || this.film.nameEn
     },
@@ -103,6 +112,10 @@ export default defineComponent({
     }
   },
   methods: {
+    showFilmOrMenu() {
+      if (isMobile()) return
+      this.goToFilm()
+    },
     goToFilm() {
       this.$router.push({
         path: `/movie/${this.film.filmId}`,
